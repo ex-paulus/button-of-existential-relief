@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Зробити Все ЗаєбісЬ!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Кнопка: ЗРОБИТИ ВСЕ ЗАЄБІСЬ!</h1>
+        <label for="mode">Режим настрою:</label>
+        <select id="mode">
+            <option value="normal" title="Просто порада — з відкритого джерела.">Просто порада</option>
+            <option value="sos" title="Фрази, коли здається, що світ сиплеться. Але ти ще тримаєшся.">Світ палає</option>
+            <option value="good" title="Тобі вже добре, але чому б не ще краще?">У мене все добре</option>
+            <option value="smoke" title="Це той момент, коли нічого не треба. Просто натиснути.">Дим-сигнал</option>
+        </select>
+        <button onclick="getAdvice()">Натисни мене</button>
+        <div id="advice"></div>
+    </div>
+    <script>
+        function getAdvice() {
+            const mode = document.getElementById("mode").value;
+            fetch(`/get-advice?mode=${mode}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("advice").innerText = data.advice;
+                });
+        }
+    </script>
+</body>
+</html>

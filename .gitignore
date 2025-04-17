@@ -1,0 +1,23 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual env
+venv/
+env/
+ENV/
+
+# MacOS system files
+.DS_Store
+
+# VSCode or JetBrains IDEs
+.vscode/
+.idea/
+
+# Logs or temp
+*.log
+*.tmp
+
+# Flask instance folder (if exists)
+instance/
