@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Зробити Все ЗаєбісЬ!</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme-toggle.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -38,29 +39,9 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("advice").innerText = data.advice;
-                });
-        }
-
-        // Dark/light theme toggle with localStorage
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggle = document.getElementById('theme-switch');
-            const isDark = localStorage.getItem('theme') === 'dark';
-
-            if (isDark) {
-                document.body.classList.add('dark-mode');
-                toggle.checked = true;
-            }
-
-            toggle.addEventListener('change', function () {
-                if (this.checked) {
-                    document.body.classList.add('dark-mode');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    document.body.classList.remove('dark-mode');
-                    localStorage.setItem('theme', 'light');
-                }
             });
-        });
+        }
     </script>
+    <script src="{{ url_for('static', filename='theme-toggle.js') }}"></script>
 </body>
 </html>
