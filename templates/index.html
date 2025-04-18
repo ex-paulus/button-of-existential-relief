@@ -8,6 +8,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+      <span class="icon">☀️</span>
+      <label class="switch">
+        <input type="checkbox" id="theme-switch">
+        <span class="slider round"></span>
+      </label>
+      <span class="icon">🌙</span>
+    </div>
+
     <div class="container">
         <h1>Кнопка: ЗРОБИТИ ВСЕ ЗАЄБІСЬ!</h1>
         <label for="mode">Режим настрою:</label>
@@ -20,6 +30,7 @@
         <button onclick="getAdvice()">Натисни мене</button>
         <div id="advice"></div>
     </div>
+
     <script>
         function getAdvice() {
             const mode = document.getElementById("mode").value;
@@ -29,6 +40,27 @@
                     document.getElementById("advice").innerText = data.advice;
                 });
         }
+
+        // Dark/light theme toggle with localStorage
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggle = document.getElementById('theme-switch');
+            const isDark = localStorage.getItem('theme') === 'dark';
+
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                toggle.checked = true;
+            }
+
+            toggle.addEventListener('change', function () {
+                if (this.checked) {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        });
     </script>
 </body>
 </html>
