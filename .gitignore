@@ -18,6 +18,7 @@ ENV/
 # Logs or temp
 *.log
 *.tmp
+/data/
 
 # Flask instance folder (if exists)
 instance/

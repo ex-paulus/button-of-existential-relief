@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
     <meta charset="UTF-8">
     <title>Зробити Все ЗаєбісЬ!</title>
@@ -8,15 +8,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='theme-toggle.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <!-- Theme Toggle -->
     <div class="theme-toggle">
-      <span class="icon">☀️</span>
-      <label class="switch">
-        <input type="checkbox" id="theme-switch">
-        <span class="slider round"></span>
-      </label>
-      <span class="icon">🌙</span>
+        <span class="icon">☀️</span>
+        <label class="switch">
+            <input type="checkbox" id="theme-switch">
+            <span class="slider round"></span>
+        </label>
+        <span class="icon">🌙</span>
     </div>
 
     <div class="container">
@@ -39,9 +40,29 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById("advice").innerText = data.advice;
-            });
+                });
+                // Log the click event
+                logClick(mode);
+        }
+
+        function logClick(mode) {
+            fetch('/click', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ mode: mode })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Click logged, total:', data.count);
+                })
+                .catch(error => {
+                    console.error('Logging failed:', error);
+                });
         }
     </script>
     <script src="{{ url_for('static', filename='theme-toggle.js') }}"></script>
 </body>
+
 </html>

@@ -1,9 +1,15 @@
 
 from flask import Flask, render_template, jsonify, request
+from datetime import datetime
+import os
+import json
 import requests
 import random
 
 app = Flask(__name__)
+
+CLICK_FILE = 'data/clicks.json'
+EVENT_LOG = 'data/events.json'
 
 backup_advice = {
     "normal": [
@@ -69,6 +75,44 @@ def get_advice():
         advice = random.choice(backup_advice.get(mode, backup_advice["normal"]))
 
     return jsonify({"advice": advice})
+
+def read_clicks():
+    if not os.path.exists(CLICK_FILE):
+        return 0
+    with open(CLICK_FILE, 'r') as f:
+        return json.load(f).get('count', 0)
+
+def write_clicks(count):
+    with open(CLICK_FILE, 'w') as f:
+        json.dump({'count': count}, f)
+
+def log_event(mode):
+    event = {
+        'timestamp': datetime.utcnow().isoformat(),
+        'mode': mode
+    }
+    if not os.path.exists(EVENT_LOG):
+        events = []
+    else:
+        with open(EVENT_LOG, 'r') as f:
+            events = json.load(f)
+    events.append(event)
+    with open(EVENT_LOG, 'w') as f:
+        json.dump(events, f, indent=2)
+
+@app.route('/click', methods=['POST'])
+def click():
+    data = request.get_json()
+    mode = data.get('mode', 'unknown')
+    count = read_clicks() + 1
+    write_clicks(count)
+    log_event(mode)
+    return jsonify({'status': 'ok', 'count': count})
+
+@app.route('/stats')
+def stats():
+    count = read_clicks()
+    return jsonify({'clicks': count})
 
 if __name__ == "__main__":
     app.run(debug=True)
